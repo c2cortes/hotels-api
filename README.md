@@ -5,4 +5,4 @@ Installing
 To install dependencies open the terminal, go to the root folder and run: npm install
 
 Running on browser
-To run the project on a browser open the terminal, go to the root folder and run: node server.js
+To run the project on a browser open the terminal, go to the root folder and run: node v3/server/server.js
