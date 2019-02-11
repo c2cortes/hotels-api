@@ -9,20 +9,21 @@ exports.searchAvailableRooms = (req, res) => {
                 message: rooms ? '' : 'Error',
                 data: []
             };
-            const roomsArray = [];
+            
+            if(req.body.checkin && req.body.checkout){
+                const checkin = req.body.checkin + 'T14:00:00.171Z';
+                const checkout = req.body.checkout + 'T12:00:00.171Z';
 
-            const checkin = req.body.checkin + 'T14:00:00.171Z';
-            const checkout = req.body.checkout + 'T12:00:00.171Z';
-
-            rooms.map((room) => {
-                let ableToAdd = true;
-                room.reservations.map((r) => {
-                    if ((r.checkin <= checkin && r.checkout >= checkin) || (r.checkin <= checkout && r.checkout >= checkout)) {
-                        ableToAdd = false;
-                    }
+                rooms.map((room) => {
+                    let ableToAdd = true;
+                    room.reservations.map((r) => {
+                        if ((r.checkin <= checkin && r.checkout >= checkin) || (r.checkin <= checkout && r.checkout >= checkout)) {
+                            ableToAdd = false;
+                        }
+                    })
+                    ableToAdd ? response.data.push({ 'name': room.name, 'description': room.description, 'price': room.price + room.currency, images: room.images }) : null;
                 })
-                ableToAdd ? response.data.push({ 'name': room.name, 'description': room.description, 'price': room.price + room.currency, images: room.images }) : null;
-            })
+            }
 
             res.send(response)
         }, (e) => {
